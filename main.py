@@ -13,7 +13,7 @@ INTERVAL = 60  # seconds
 
 class TimeLapseBot:
     def save_frame(self):
-        print "Building frame..."
+        print( "Building frame..." )
         now = datetime.datetime.utcnow().strftime("%Y%m%d%H%MUTC")
         im = canvas.fetch()
         im.save(now + '.png')

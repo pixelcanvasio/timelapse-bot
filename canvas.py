@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-import urllib2
+import urllib.request
 from PIL import Image
 
 colors = [
@@ -38,13 +38,13 @@ def fetch():
         for center_x in [-30, -15, 0, 15, 30]:
             for center_y in [-30, -15, 0, 15, 30]:
                 bmp_filename = str(center_x) + "." + str(center_y) + ".bmp"
-                print "Downloading", bmp_filename
-                request = urllib2.Request(
+                print( "Downloading", bmp_filename )
+                request = urllib.request.Request(
                     "http://pixelcanvas.io/api/bigchunk/" + bmp_filename,
                     None,
                     {'User-agent':'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)'}
                     )
-                remote_bmp = urllib2.urlopen(request)
+                remote_bmp = urllib.request.urlopen(request)
                 raw_data = remote_bmp.read()#.ljust(460800,"\0")
                 current_byte = 0
                 for bigchunk_y in range(center_y-RADIUS,center_y+RADIUS+1):
@@ -56,8 +56,8 @@ def fetch():
                                 pix[current_x + OFFSET, current_y + OFFSET] = colors[ord(raw_data[current_byte]) >> 4]
                                 pix[current_x+1  + OFFSET, current_y + OFFSET] = colors[ord(raw_data[current_byte]) & 0x0F]
                                 current_byte += 1
-        print "Canvas successfully downloaded!"
+        print( "Canvas successfully downloaded!" )
         return img
     except Exception:
-        print "Error downloading canvas!"
+        print( "Error downloading canvas!" )
         raise
